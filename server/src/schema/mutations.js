@@ -19,17 +19,21 @@ const mutation = new GraphQLObjectType({
         gist_id: { type: new GraphQLNonNull(GraphQLID) },
         user_id: { type: new GraphQLNonNull(GraphQLID) },
         dateCreated: { type: new GraphQLNonNull(GraphQLString) },
-        files: { type: GraphQLJSONObject },
+        description: { type: new GraphQLNonNull(GraphQLString) },
       },
-      async resolve(parentValue, { gist_id, user_id, dateCreated, files }) {
+      async resolve(
+        parentValue,
+        { gist_id, user_id, dateCreated, description }
+      ) {
         // add to fav list
         const favoriteRef = db.collection('favoritegists').doc(user_id);
 
         const res = await favoriteRef.set(
           {
-            gist_id: true,
+            gist_id,
+            user_id,
             dateCreated,
-            files,
+            description,
           },
           { merge: true }
         );

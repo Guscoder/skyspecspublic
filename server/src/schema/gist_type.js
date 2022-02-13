@@ -2,7 +2,6 @@ const graphql = require('graphql');
 const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
 const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLInt, GraphQLString } =
   graphql;
-// const Lyric = mongoose.model('lyric');
 
 const FilesType = new GraphQLObjectType({
   name: 'FilesType',
