@@ -14,8 +14,8 @@ const FavoriteGistType = new GraphQLObjectType({
   fields: () => ({
     description: { type: GraphQLString },
     gist_id: { type: new GraphQLNonNull(GraphQLID) },
-    user_id: { type: new GraphQLNonNull(GraphQLID) },
     dateCreated: { type: GraphQLString },
+    files: { type: GraphQLJSON },
   }),
 });
 

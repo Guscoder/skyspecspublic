@@ -1,35 +1,59 @@
-import React, { useEffect, useState } from "react";
-import logo from "./SS.svg";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import './App.css';
+import SearchBar from './components/SearchBar';
+import SearchResults from './components/SearchResults';
+import FavoriteGists from './components/FavoriteGists';
+import SingleGist from './components/SingleGist';
+import Navbar from './components/Navbar';
+import ApiClient from './gistLibrary/apiclient.mjs';
 
 const App = () => {
-  const [connected, setConnected] = useState(false);
+  const [currentuser, setCurrentUser] = useState('hi');
+  const [usergists, setUserGists] = useState([]);
+  const [favoriteList, setFavoriteList] = useState({});
+
   useEffect(() => {
-    const timer = setInterval(
-      async () =>
-        fetch("http://localhost:3010")
-          .then(() => setConnected(true))
-          .catch((e) => setConnected(false)),
-      1000
-    );
-    return () => clearInterval(timer);
+    async function getFavorites() {
+      const response = await ApiClient.getFavoriteGists();
+      console.log(response);
+      setFavoriteList(response);
+    }
+    getFavorites();
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to the SkySpecs Software Engineer Coding Challenge</p>
-        <a
-          className="App-link"
-          href="https://drive.google.com/file/d/1vIrNPICCYwGIkfKBKEzn6uW5BWfnhLEr/view?usp=sharing"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Instructions
-        </a>
-        <p>Your Server is {connected ? "" : "not "}running</p>
-      </header>
+    <div className='App'>
+      <BrowserRouter>
+        <Navbar />
+        <div>
+          <Switch>
+            {/* <Route path='/' exact component={SearchBar} /> */}
+            <Route path='/' exact>
+              <SearchBar user={currentuser} setCurrentUser={setCurrentUser} />
+            </Route>
+            <Route path='/gists' exact>
+              <SearchResults
+                user={currentuser}
+                usergists={usergists}
+                setUserGists={setUserGists}
+              />
+            </Route>
+            <Route path='/gists/favorites' exact>
+              <FavoriteGists
+                favoriteList={favoriteList}
+                setFavoriteList={setFavoriteList}
+              />
+            </Route>
+            <Route path='/gists/:id' exact>
+              <SingleGist
+                favoriteList={favoriteList}
+                setFavoriteList={setFavoriteList}
+              />
+            </Route>
+          </Switch>
+        </div>
+      </BrowserRouter>
     </div>
   );
 };

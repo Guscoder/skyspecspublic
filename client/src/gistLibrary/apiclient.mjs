@@ -16,12 +16,10 @@ const getGists = (username) => {
   const variables = {
     username: username,
   };
-  request('http://localhost:3010/graphql', query, variables)
-    .then((data) => console.log(data.gists))
+  return request('http://localhost:3010/graphql', query, variables)
+    .then((data) => data.gists)
     .catch((error) => console.log(error));
 };
-
-// getGists('GrahamcOfBorg');
 
 const getSingleGist = (gistId) => {
   //gist id '8696de510e0723bb953be577426d937a';
@@ -45,8 +43,6 @@ const getSingleGist = (gistId) => {
     .catch((error) => console.log(error));
 };
 
-// getSingleGist('8696de510e0723bb953be577426d937a');
-
 const getFavoriteGists = () => {
   const query = gql`
     query getFavorites {
@@ -54,26 +50,24 @@ const getFavoriteGists = () => {
     }
   `;
 
-  request('http://localhost:3010/graphql', query)
-    .then((data) => console.log(data.favoriteGists))
+  return request('http://localhost:3010/graphql', query)
+    .then((data) => data.favoriteGists)
     .catch((error) => console.log(error));
 };
 
-// getFavoriteGists();
-
-const markFavoriteGists = (gist_id, user_id, dateCreated, description) => {
+const markFavoriteGists = (gist_id, description, dateCreated, files) => {
   const mutation = gql`
     mutation markFavorite(
       $gist_id: ID!
-      $user_id: ID!
-      $dateCreated: String!
       $description: String!
+      $dateCreated: String!
+      $files: JSONObject
     ) {
       markFavorite(
         gist_id: $gist_id
-        user_id: $user_id
-        dateCreated: $dateCreated
         description: $description
+        dateCreated: $dateCreated
+        files: $files
       ) {
         gist_id
       }
@@ -82,28 +76,26 @@ const markFavoriteGists = (gist_id, user_id, dateCreated, description) => {
 
   const variables = {
     gist_id,
-    user_id,
-    dateCreated,
     description,
+    dateCreated,
+    files,
   };
 
-  request('http://localhost:3010/graphql', mutation, variables)
-    .then((data) => console.log(data))
+  return request('http://localhost:3010/graphql', mutation, variables)
+    .then((data) => data)
     .catch((error) => console.log(error));
 };
 
-const unmarkFavoriteGists = (gist_id, user_id) => {
+const unmarkFavoriteGists = (gist_id) => {
   const mutation = gql`
-    mutation unmarkFavorite($gist_id: ID!, $user_id: ID!) {
-      unmarkFavorite(gist_id: $gist_id, user_id: $user_id) {
+    mutation unmarkFavorite($gist_id: ID!) {
+      unmarkFavorite(gist_id: $gist_id) {
         gist_id
       }
     }
   `;
-  // gist_id, user_id, dateCreated, description
   const variables = {
     gist_id,
-    user_id,
   };
 
   request('http://localhost:3010/graphql', mutation, variables)

@@ -25,7 +25,8 @@ const RootQuery = new GraphQLObjectType({
           .then((res) => {
             console.log(res.data);
             return res.data;
-          });
+          })
+          .catch((error) => console.log(error));
       },
     },
     gist: {

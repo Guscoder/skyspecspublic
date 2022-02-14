@@ -3,26 +3,6 @@ const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
 const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLInt, GraphQLString } =
   graphql;
 
-const FilesType = new GraphQLObjectType({
-  name: 'FilesType',
-  fields: () => ({
-    filename: {
-      type: FileType,
-    },
-  }),
-});
-
-const FileType = new GraphQLObjectType({
-  name: 'FileType',
-  fields: () => ({
-    filename: { type: GraphQLString },
-    type: { type: GraphQLString },
-    language: { type: GraphQLString },
-    raw_url: { type: GraphQLString },
-    size: { type: GraphQLInt },
-  }),
-});
-
 const GistType = new GraphQLObjectType({
   name: 'GistType',
   fields: () => ({
@@ -34,7 +14,7 @@ const GistType = new GraphQLObjectType({
     created_at: { type: GraphQLString },
     description: { type: GraphQLString },
     updated_at: { type: GraphQLString },
-    files: { type: GraphQLJSONObject },
+    files: { type: GraphQLJSON },
     // owner: { type: GraphQLObjectType },
   }),
 });

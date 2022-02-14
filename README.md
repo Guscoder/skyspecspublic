@@ -1,109 +1,29 @@
-# SkySpecs Code Sample - Starter Repo
+README
+Just pull down the repo and run at the command line with:
 
-Welcome to the SkySpecs Code Sample starter repo! 
+1. npm start
 
-We’ve created a code sample repository to help avoid any initial trouble with getting a project started, allowing you to focus on the important aspects of this exercise. The technologies we chose represent what our team frequently works with, such as React and Express.js. Feel free to swap these tools out with options that you are most comfortable if you believe you can shine best using something different.
+2. It should start a server on port 3010 and a react UI on port 3000.
 
-Please direct any questions regarding this exercise to the SkySpecs recruiter you've been working with.
+A few comments on the Gist Fetching Repo:
 
-[SkySpecs_Code_Sample_Software_Engineer.pdf](https://drive.google.com/file/d/1vIrNPICCYwGIkfKBKEzn6uW5BWfnhLEr/view)
+I worked on the requirements in the following order:
 
-# Getting Started
+1. GraphQL Server
+2. API Client Library
+3. React UI
 
-## Prerequisites
+From my own testing, the GQL server and API Client Library are fully functional.
 
-- Node.js
-- npm
+The React UI works as follows:
 
-[https://docs.npmjs.com/downloading-and-installing-node-js-and-npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+1. Github user search functions and returns a list (in table format) of the user's public gists as returned by Github
+2. The Favorites is not yet working fully, it will show what I saved in the database. You can remove but not yet add. There is a small bug in teh GQL Typeing but I ran out of time to fully fix it. You can see the code structure that is there in the SingleGist.js file.
+3. The CSS is non-existent, it looks horrible. Just want to apologize for that bt it said in the requirements not to worry about it and since I am out of time, I didn't.
 
-- yarn ( optional )
+Architecture Notes:
 
-[https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
-
-## Installation
-
-### Server
-
-1. Navigate to the server directory
-
-```bash
-cd skyspecs-starter/server
-```
-
-2. Install necessary dependencies
-
-```bash
-npm i
-```
-
-or 
-
-```bash
-yarn
-```
-
-3. Run the application
-
-```bash
-npm run start
-```
-
-or 
-
-```bash
-yarn start
-```
-
-#### Database
-
-A quick way to get a database instance running:
-
-1. Install [docker](https://www.docker.com/)
-2. Run an instance of the official postgres docker image (and expose the port for connecting to it)
-```bash
-docker run --name my-pg -p 5432:5432 -e POSTGRES_PASSWORD=superSecretPassword -d postgres
-```
-3. (Optional) Verify the instance is running
-```bash
-docker ps # (You should see your instance named my-pg in the output)
-```
-4. You should now be able to connect to your database using the connection string: `postgresql://postgres:superSecretPassword@localhost:5432/postgres`
-
-### Client
-
-1. Navigate to the client directory. If you’re already in the server directory:
-
-```bash
-cd ../client
-```
-
-otherwise:
-
-```bash
-cd skyspecs-starter/server
-```
-
-1. Install necessary dependencies
-
-```bash
-npm i
-```
-
-or 
-
-```bash
-yarn
-```
-
-2. Run the application
-
-```bash
-npm run start
-```
-
-or 
-
-```bash
-yarn start
-```
+1. I used a GrapQL API server using express-graphql.
+2. I also used request-graphql on the front end in the API CLient library (found in the gistsLibrary folder).
+3. The database is a simple Firebase Firestore document database. I chose this for its simplicity for this particular project and the fact that this would not be particularly relational data.
+4. I chose React for the UI due to the simple nature of the project and few page requirements. It allowed me to easily get and refresh data as needed.

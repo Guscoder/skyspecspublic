@@ -17,21 +17,18 @@ const mutation = new GraphQLObjectType({
       type: FavoriteGistType,
       args: {
         gist_id: { type: new GraphQLNonNull(GraphQLID) },
-        user_id: { type: new GraphQLNonNull(GraphQLID) },
-        dateCreated: { type: new GraphQLNonNull(GraphQLString) },
-        description: { type: new GraphQLNonNull(GraphQLString) },
+        dateCreated: { type: GraphQLString },
+        description: { type: GraphQLString },
+        files: { type: GraphQLJSONObject },
       },
-      async resolve(
-        parentValue,
-        { gist_id, user_id, dateCreated, description }
-      ) {
+      async resolve(parentValue, { gist_id, dateCreated, files, description }) {
         // add to fav list
-        const favoriteRef = db.collection('favoritegists').doc(user_id);
+        const favoriteRef = db.collection('favoritegists').doc(gist_id);
 
         const res = await favoriteRef.set(
           {
             gist_id,
-            user_id,
+            files,
             dateCreated,
             description,
           },
@@ -45,17 +42,10 @@ const mutation = new GraphQLObjectType({
       type: FavoriteGistType,
       args: {
         gist_id: { type: new GraphQLNonNull(GraphQLID) },
-        user_id: { type: new GraphQLNonNull(GraphQLID) },
       },
-      async resolve(parentValue, { gist_id, user_id }) {
-        // Create a document reference
-        const favoritesRef = db.collection('favoritegists').doc(user_id);
-
-        // Remove the field from the document
-        const res = await favoritesRef.update({
-          gist_id: FieldValue.delete(),
-        });
-
+      async resolve(parentValue, { gist_id }) {
+        // Delete a document
+        const res = await db.collection('favoritegists').doc(gist_id).delete();
         return res;
       },
     },
