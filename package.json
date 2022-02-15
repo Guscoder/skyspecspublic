@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/src/server && cd client && npm start"
+    "start": "concurrently 'npm --prefix ./server/ run start' 'npm --prefix ./client/ run start'"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
 }

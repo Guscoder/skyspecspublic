@@ -4,7 +4,7 @@ import ApiClient from '../gistLibrary/apiclient.mjs';
 const SingleGist = ({ gist, favoriteList, setFavoriteList }) => {
   const [isFavorite, setFavorite] = useState(false);
   const [showFiles, setShowFiles] = useState(false);
-  console.log(gist);
+  // console.log(gist);
 
   const checkFavoriteStatus = () => {
     // setFavorite(data_here);

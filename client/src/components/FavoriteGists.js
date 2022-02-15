@@ -6,7 +6,7 @@ const FavoriteGists = ({ favoriteList, setFavoriteList }) => {
   useEffect(() => {
     async function getFavs() {
       const response = await ApiClient.getFavoriteGists();
-      console.log(response);
+      // console.log(response);
       setFavoriteList(response);
       return response;
     }
@@ -25,6 +25,7 @@ const FavoriteGists = ({ favoriteList, setFavoriteList }) => {
           {favoriteList
             ? Object.entries(favoriteList).map((gist) => (
                 <SingleGist
+                  key={gist[1].id}
                   gist={gist[1]}
                   favoriteList={favoriteList}
                   setFavoriteList={setFavoriteList}

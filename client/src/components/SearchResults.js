@@ -46,9 +46,7 @@ const SearchResults = ({
                 />
               );
             })
-          ) : (
-            'none'
-          )}
+          ) : null}
         </tbody>
       </table>
     </div>
