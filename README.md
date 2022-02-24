@@ -1,5 +1,5 @@
 README
-Just pull down the repo and run at the command line with:
+Just pull down the repo, change dir to client and run npm install, then change dir to sevrer and run npm install, and then go back to project directory and run at the command line with:
 
 1. npm start
 
